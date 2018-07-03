@@ -1,34 +1,27 @@
+# The title for the Datadog Time Board
 variable "title" {}
 
-variable "viz" {}
+# The description for the Datadog Time Board
+variable "description" {}
 
-variable "request" {
+# Is the board read_only, defaults to false
+variable "read_only" {
+  default = false
+}
+
+# The graphs, inputted from our graph module
+variable "graphs" {
   default = []
 }
 
-variable "viz_map" {
-  type = "map"
+resource "datadog_timeboard" "this" {
+  title       = "${var.title}"
+  description = "${var.description}"
+  read_only   = "${avr.read_only}"
 
-  default = {
-    change       = "change"
-    distribution = "distribution"
-    heatmap      = "heatmap"
-    hostmap      = "hostmap"
-    query_value  = "query_value"
-    timeseries   = "timeseries"
-    toplist      = "toplist"
-  }
-}
+  graph = [
+    "${var.graphs}",
+  ]
 
-locals {
-  graph = {
-    title = "${var.title}"
-    viz   = "${lookup(var.viz_map,var.viz)}"
-
-    request = ["${var.request}"]
-  }
-}
-
-output "graph" {
-  value = "${local.graph}"
+  template_variable = []
 }

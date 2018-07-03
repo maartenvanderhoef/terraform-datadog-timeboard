@@ -4,7 +4,7 @@ provider "datadog" {
 }
 
 module "datadog_graph_redis" {
-  source = "../"
+  source = "../modules/graph"
   title  = "Top System CPU by Docker container"
   viz    = "toplist"
 
@@ -19,13 +19,12 @@ module "datadog_graph_redis" {
       style {
         palette = "warm"
       }
-    }
+    },
   ]
 }
 
-
 module "datadog_graph_system_cpu" {
-  source = "../"
+  source = "../modules/graph"
   title  = "Top System CPU by Docker container"
   viz    = "toplist"
 
@@ -34,17 +33,18 @@ module "datadog_graph_system_cpu" {
   }]
 }
 
-resource "datadog_timeboard" "redis" {
+module "datadog_graph_redis" {
   title       = "Redis Timeboard (created via Terraform)"
   description = "created using the Datadog provider in Terraform"
   read_only   = true
 
   graph = [
-    "${module.datadog_graph_redis.graph}", "${module.datadog_graph_system_cpu.graph}"
+    "${module.datadog_graph_redis.graph}",
+    "${module.datadog_graph_system_cpu.graph}",
   ]
 
-  template_variable {
-    name   = "host"
+  template_variable = [{
+    name   = "*"
     prefix = "host"
-  }
+  }]
 }
