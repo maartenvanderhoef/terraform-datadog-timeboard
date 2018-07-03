@@ -38,7 +38,7 @@ module "datadog_graph_system_cpu" {
 }
 
 module "datadog_timeboard" {
-  source  = "maartenvanderhoef/timeboard/datadog//modules/graph"
+  source  = "maartenvanderhoef/timeboard/datadog"
   version = "0.0.2"
   title       = "Redis Timeboard (created via Terraform)"
   description = "created using the Datadog provider in Terraform"
