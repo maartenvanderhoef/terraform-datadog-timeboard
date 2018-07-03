@@ -4,7 +4,9 @@ provider "datadog" {
 }
 
 module "datadog_graph_redis" {
-  source = "../modules/graph"
+  source  = "maartenvanderhoef/timeboard/datadog//modules/graph"
+  version = "0.0.2"
+
   title  = "Top System CPU by Docker container"
   viz    = "toplist"
 
@@ -24,7 +26,9 @@ module "datadog_graph_redis" {
 }
 
 module "datadog_graph_system_cpu" {
-  source = "../modules/graph"
+  source  = "maartenvanderhoef/timeboard/datadog//modules/graph"
+  version = "0.0.2"
+
   title  = "Top System CPU by Docker container"
   viz    = "toplist"
 
@@ -34,7 +38,8 @@ module "datadog_graph_system_cpu" {
 }
 
 module "datadog_timeboard" {
-  source = "../modules/"
+  source  = "maartenvanderhoef/timeboard/datadog//modules/graph"
+  version = "0.0.2"
   title       = "Redis Timeboard (created via Terraform)"
   description = "created using the Datadog provider in Terraform"
   read_only   = true
