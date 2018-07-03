@@ -13,15 +13,3 @@ variable "read_only" {
 variable "graphs" {
   default = []
 }
-
-resource "datadog_timeboard" "this" {
-  title       = "${var.title}"
-  description = "${var.description}"
-  read_only   = "${var.read_only}"
-
-  graph = [
-    "${var.graphs}",
-  ]
-
-  template_variable = []
-}
