@@ -33,7 +33,8 @@ module "datadog_graph_system_cpu" {
   }]
 }
 
-module "datadog_graph_redis" {
+module "datadog_timeboard" {
+  source = "../modules/"
   title       = "Redis Timeboard (created via Terraform)"
   description = "created using the Datadog provider in Terraform"
   read_only   = true

@@ -10,6 +10,11 @@ variable "read_only" {
 }
 
 # The graphs, inputted from our graph module
-variable "graphs" {
+variable "graph" {
+  default = []
+}
+
+# a list of template_variable blocks
+variable "template_variable" {
   default = []
 }
