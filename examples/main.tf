@@ -55,6 +55,8 @@ module "datadog_timeboard" {
   title       = "System Graphs"
   description = "System Graphs description"
   read_only   = true
+  # create = true
+
 
   graph = [
     "${module.datadog_graph_system_load.graph}",

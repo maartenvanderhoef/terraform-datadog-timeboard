@@ -13,7 +13,7 @@ provider "datadog" {
 
 module "datadog_graph_system_load" {
   source  = "maartenvanderhoef/timeboard/datadog//modules/graph"
-  version = "0.0.3"
+  version = "0.0.4"
 
   title = "System Load"
   viz   = "timeseries"
@@ -36,7 +36,7 @@ module "datadog_graph_system_load" {
 
 module "datadog_graph_cpu_idle" {
   source  = "maartenvanderhoef/timeboard/datadog//modules/graph"
-  version = "0.0.3"
+  version = "0.0.4"
 
   title = "CPU Idle per Host"
   viz   = "timeseries"
@@ -59,10 +59,11 @@ module "datadog_graph_cpu_idle" {
 
 module "datadog_timeboard" {
   source      = "maartenvanderhoef/timeboard/datadog"
-  version     = "0.0.3"
+  version     = "0.0.4"
   title       = "System Graphs"
   description = "System Graphs description"
   read_only   = true
+  # create = true
 
   graph = [
     "${module.datadog_graph_system_load.graph}",
