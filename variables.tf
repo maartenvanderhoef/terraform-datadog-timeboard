@@ -1,4 +1,9 @@
 # The title for the Datadog Time Board
+variable "create" {
+  default = true
+}
+
+# The title for the Datadog Time Board
 variable "title" {}
 
 # The description for the Datadog Time Board

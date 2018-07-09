@@ -2,7 +2,7 @@ locals {
   graph = {
     title = "${var.title}"
 
-    viz   = "${lookup(var.viz_map,var.viz)}"
+    viz = "${lookup(var.viz_map,var.viz)}"
 
     request = ["${var.request}"]
 

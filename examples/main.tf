@@ -1,56 +1,63 @@
 provider "datadog" {
-  api_key = ""
-  app_key = ""
+  api_key = "${var.datadog_api_key}"
+  app_key = "${var.datadog_app_key}"
 }
 
-module "datadog_graph_redis" {
+module "datadog_graph_system_load" {
   source  = "maartenvanderhoef/timeboard/datadog//modules/graph"
-  version = "0.0.2"
+  version = "0.0.3"
 
-  title  = "Top System CPU by Docker container"
-  viz    = "toplist"
+  title = "System Load"
+  viz   = "timeseries"
 
   request = [
     {
-      q       = "avg:redis.mem.used{$host} - avg:redis.mem.lua{$host}, avg:redis.mem.lua{$host}"
-      stacked = true
-    },
-    {
-      q = "avg:redis.mem.rss{$host}"
+      q    = "avg:system.load.1{*} by {host}"
+      type = "area"
 
       style {
-        palette = "warm"
+        palette = "dog_classic"
+        type    = "solid"
+        width   = "normal"
       }
+
+      aggregator = "avg"
     },
   ]
 }
 
-module "datadog_graph_system_cpu" {
+module "datadog_graph_cpu_idle" {
   source  = "maartenvanderhoef/timeboard/datadog//modules/graph"
-  version = "0.0.2"
+  version = "0.0.3"
 
-  title  = "Top System CPU by Docker container"
-  viz    = "toplist"
+  title = "CPU Idle per Host"
+  viz   = "timeseries"
 
-  request = [{
-    q = "top(avg:docker.cpu.system{*} by {container_name}, 10, 'mean', 'desc')"
-  }]
+  request = [
+    {
+      q    = "avg:system.cpu.idle{*} by {host}"
+      type = "area"
+
+      style {
+        palette = "dog_classic"
+        type    = "solid"
+        width   = "normal"
+      }
+
+      aggregator = "avg"
+    },
+  ]
 }
 
 module "datadog_timeboard" {
-  source  = "maartenvanderhoef/timeboard/datadog//modules/graph"
-  version = "0.0.2"
-  title       = "Redis Timeboard (created via Terraform)"
-  description = "created using the Datadog provider in Terraform"
+  source      = "maartenvanderhoef/timeboard/datadog"
+  version     = "0.0.3"
+  title       = "System Graphs"
+  description = "System Graphs description"
   read_only   = true
 
   graph = [
-    "${module.datadog_graph_redis.graph}",
-    "${module.datadog_graph_system_cpu.graph}",
+    "${module.datadog_graph_system_load.graph}",
+    "${module.datadog_graph_cpu_idle.graph}",
   ]
-
-  template_variable = [{
-    name   = "*"
-    prefix = "host"
-  }]
 }
